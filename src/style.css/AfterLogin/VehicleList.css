@@ -8,3 +8,9 @@
     margin: 0.6rem 0 0 0 !important;
     font-size: 0.85rem !important;
 }
+tr td {
+    padding: 8px 15px;    
+    line-height: 18px;
+    font-weight: 400;
+    font-size: 0.8rem;
+}

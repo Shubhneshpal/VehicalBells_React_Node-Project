@@ -1,0 +1,57 @@
+.form-control {    
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+    min-height: 30px ;
+    padding: 6px 15px !important;
+    color: #0a1c31;
+}
+textarea.form-control {    
+    padding: 14px 15px !important;
+    line-height: 5px !important;
+    min-height: 33px !important;
+}
+.form-control018{
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.03);    
+    min-height: 33px !important;
+    padding: 6px 15px !important;
+    color: #0a1c31;
+}
+.Rupees{
+    position: relative;
+}
+.Rupees h4{
+    font-size: 20px;
+    color: #0A1C31;    
+}
+.Rupees label{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid dotted;
+    border: dashed;
+    border-width: 1px;
+    width: 100%;
+    min-height: 150px;
+    margin-top: 2.3rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    flex-direction: column;
+}
+.Rupees span p{
+    font-family: 'Mulish', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 22px;
+    color: #454545;
+}
+.Rupeessvg {
+    margin-bottom: 7px;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 22px;
+}
+.svg_savebtn29{
+    font-size: 15px;
+}

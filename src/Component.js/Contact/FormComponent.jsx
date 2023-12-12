@@ -12,7 +12,7 @@ const FormComponent = () => {
     massage: ""
   });
   const [errors, setErrors] = useState({});
-  const [isFormValid, setIsFormValid] = useState(false);
+ 
 
   
 
@@ -23,53 +23,107 @@ const FormComponent = () => {
     setformData({ ...formData, [name]: value });    
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = validateForm(formData);
-    setErrors(newErrors);
-  
-    // Use the updated value of isFormValid from setIsFormValid callback
-    setIsFormValid((prevIsFormValid) => {
-      const isValid = Object.keys(newErrors).length === 0;
-      if (isValid) {
-        console.log("Form submitted");
-  
-        setformData({
-          name: "",
-          email: "",
-          phone: "",
-          massage: ""
-        });
-      } else {
-        console.log("Form validation failed");
-      }
-      
-      return isValid;
-    });
-  };
-
   // const handleSubmit = (e) => {
   //   e.preventDefault();
-  //   const newErrors = validateForm(formData); // Validate the form using the utility function
+  //   const newErrors = validateForm(formData);
   //   setErrors(newErrors);
-  //   setIsFormValid(Object.keys(newErrors).length === 0);
-
-  //   if (isFormValid) {
-  //     console.log("Form submitted");
-
-  //     setformData(
-  //       {
+  
+  //   // Use the updated value of isFormValid from setIsFormValid callback
+  //   setIsFormValid(async(prevIsFormValid) => {
+  //     const isValid = Object.keys(newErrors).length === 0;
+  //     if (isValid) {
+  //       const contactformData = {
+  //         name:formData.name,
+  //         email:formData.email,
+  //         phone:formData.phone,
+  //         massage:formData.massage,          
+  //       };
+        
+  //       try {
+  //         const response = await fetch('http://localhost:5000/contactFormModule/contactFormData', {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify(contactformData),
+  //         });        
+        
+        
+  //         if (response.ok) {
+  //           const data = await response.json();
+  //           console.log('contact data save successfully:', data);
+          
+  //         } else {
+  //           const errorData = await response.json();
+  //           console.error('Failed to save contact:', errorData);
+  //         }
+  //       } catch (error) {
+  //         console.error('Error during addVehicle save data:', error);
+  //       } 
+  
+  //       setformData({
   //         name: "",
   //         email: "",
   //         phone: "",
   //         massage: ""
-  //       }
-  //     )      
-  //     // You can send data to an API or perform any other action here
-  //   } else {
-  //     console.log("Form validation failed");
-  //   }
+  //       });
+  //     } else {
+  //       console.log("Form validation failed");
+  //     }
+      
+  //     return isValid;
+  //   });
   // };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = validateForm(formData);
+    setErrors(newErrors);
+
+    const isValid = Object.keys(newErrors).length === 0;
+
+    if (isValid) {
+      const contactformData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        massage: formData.massage,
+      };
+
+      try {
+        const response = await fetch('http://localhost:5000/contactFormModule/contactFormData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(contactformData),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('contact data save successfully:', data);
+        } else {
+          const errorData = await response.json();
+          console.error('Failed to save contact:', errorData);
+        }
+      } catch (error) {
+        console.error('Error during addVehicle save data:', error);
+      }
+
+      // Clear form data
+      setformData({
+        name: "",
+        email: "",
+        phone: "",
+        massage: ""
+      });
+    } else {
+      console.log("Form validation failed");
+    }
+  };
+
+
 
   return (
     <>

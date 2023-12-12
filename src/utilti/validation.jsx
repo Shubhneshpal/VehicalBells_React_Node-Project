@@ -1,3 +1,4 @@
+// contact form validation*******
 export const validateForm = (formData) => {
     const errors = {};
     console.log(errors)  
@@ -50,43 +51,41 @@ export const validateForm = (formData) => {
  
 
 
-  // Register form validation 
+//  Register form validation******/////
 
   export const validateFormRegister = (RegformData) => {
     const errors = {};
-     // Validate name
-     if (RegformData?.name?.trim() === '') {
+  
+    // Validate name
+    if (!RegformData?.name?.trim()) {
       errors.name = 'Name is required *';
     }
-     // Validate Last name
-     if (RegformData?.lname?.trim() === '') {
+  
+    // Validate Last name
+    if (!RegformData?.lname?.trim()) {
       errors.lname = 'Last Name is required *';
     }
-    // Validate  Company name
-    if (RegformData?.Cname?.trim() === '') {
+  
+    // Validate Company name
+    if (!RegformData?.Cname?.trim()) {
       errors.Cname = 'Company Name is required *';
     }
-      // Validate email
-      if(RegformData?.email?.trim() === ''){
-        errors.email = "Email is required *"
-      }else if (!isValidEmail(RegformData.email)) {
-        errors.email = 'Invalid email address *';
-      } 
-       // Validate password
-       if(!validatePassword(RegformData.password)){
-        errors.password = " Minimum 8 characters & at least 1 letter & 1number *"
-      }
-        // Validate phone
-    if (RegformData.phone.trim() === '') {
-      errors.phone = 'Phone number is required *';
+  
+    // Validate email
+    if (!RegformData?.email?.trim()) {
+      errors.email = 'Email is required *';
+    } else if (!isValidEmail(RegformData.email)) {
+      errors.email = 'Invalid email address *';
     }
-    else if (!validatePhoneNumber(RegformData.phone)) {
-      errors.phone = 'Invalid phone number. Please enter digits only*';
-    }else if (!validatePhoneNumbers(RegformData.phone)){
-      errors.phone = "10-digit numeric phone number is required*"
-    } 
-      return errors ;
-  }
+  
+    // Validate password
+    if (!RegformData.password || !validatePassword(RegformData.password)) {
+      errors.password = 'Minimum 8 characters & at least 1 letter & 1 number *';
+    }  
+
+  
+    return errors;
+  };
 
   export const validatePassword = (password) => {
     // Password validation logic
@@ -95,3 +94,121 @@ export const validateForm = (formData) => {
     const hasNumber = /\d/.test(password);
     return password.length >= 8 && hasCharacter && hasNumber;
   };
+  
+
+
+//  Login form validation******/////
+
+export const validateFormLogin = (loginData) => {
+  const errors = {};
+
+  // Validate email
+  if (!loginData?.email?.trim()) {
+    errors.email = 'Email is required *';
+  } else if (!isValidEmail(loginData.email)) {
+    errors.email = 'Invalid email address *';
+  }
+  // Validate password
+  if (!loginData.password || !validatePassword(loginData.password)) {
+    errors.password = 'Minimum 8 characters & at least 1 letter & 1 number *';
+  }
+  return errors;
+};
+
+
+
+// addVehicle page validation*******
+export const addVehiclePageValidation = (VehicleData) => {
+  const errors = {};
+  console.log(errors)  
+  // Validate name
+  if (VehicleData.vType.trim() === '') {
+    errors.vType = 'This input field is required **';
+  } 
+  // Validate email
+  if(VehicleData.MCompany.trim() === ''){
+    errors.MCompany = "This input field is required **"
+  }   
+  // Validate phone
+  if (VehicleData.fType.trim() === '') {
+    errors.fType = 'This input field is required **';
+  }
+  if (VehicleData.Modal.trim() === '') {
+    errors.Modal = 'This input field is required **';
+  }
+  if (VehicleData.VRegistration.trim() === '') {
+    errors.VRegistration = 'This input field is required **';
+  }
+  if (VehicleData.Avrage.trim() === '') {
+    errors.Avrage = 'This input field is required **';
+  }
+  if (VehicleData.OReading.trim() === '') {
+    errors.OReading = 'This input field is required **';
+  }
+  return errors;
+};
+
+
+// addTrip page validation*******
+export const validateFormAddTrip = (TripformData) => {
+  const errors = {};
+  console.log(errors)  
+  // Validate name
+  if (TripformData.Tfrom.trim() === '') {
+    errors.Tfrom = 'This input field is required **';
+  } 
+  // Validate email
+  if(TripformData.Tend.trim() === ''){
+    errors.Tend = "This input field is required **"
+  }   
+  // Validate phone
+  if (TripformData.Cvehicle.trim() === '') {
+    errors.Cvehicle = 'This input field is required **';
+  }
+  if (TripformData.Ttpye.trim() === '') {
+    errors.Ttpye = 'This input field is required **';
+  }
+  if (TripformData.Note.trim() === '') {
+    errors.Note = 'This input field is required **';
+  }
+  if (TripformData.Tag.trim() === '') {
+    errors.Tag = 'This input field is required **';
+  }
+  return errors;
+};
+
+
+
+// addExpenses page validation*******
+export const validateFormAddExpenses = (expensesData) => {
+  const errors = {};
+  console.log(errors)  
+  if (expensesData.vType.trim() === '') {
+    errors.vType = 'This input field is required **';
+  }  
+  if (expensesData.State.trim() === '') {
+    errors.State = 'This input field is required **';
+  }
+  if (expensesData.fType.trim() === '') {
+    errors.fType = 'This input field is required **';
+  }
+  if (expensesData.fprice.trim() === '') {
+    errors.fprice = 'This input field is required **';
+  }
+  if (expensesData.Trip.trim() === '') {
+    errors.Trip = 'This input field is required **';
+  }
+  if (expensesData.Distance.trim() === '') {
+    errors.Distance = 'This input field is required **';
+  }
+  if (expensesData.vAverage.trim() === '') {
+    errors.vAverage = 'This input field is required **';
+  }
+  if (expensesData.vRegistration.trim() === '') {
+    errors.vRegistration = 'This input field is required **';
+  }
+  if (expensesData.Notes.trim() === '') {
+    errors.Notes = 'This input field is required **';
+  }
+  return errors;
+};

@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../style.css/AfterLogin/VehicleList.css"
 import { Link } from "react-router-dom";
 import { HiPlus } from "react-icons/hi";
 
 
 const VehicleList = ({collapsed}) => {
+  const [data, setData] = useState([]);
+  console.log(data) 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/addVehicleGetModule/GetvehiclesData'); // Adjust the URL based on your server configuration
+        if (response.ok) {
+          const jsonData = await response.json();
+          setData(jsonData);
+        } else {
+          console.error('Error fetching data');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
 
@@ -24,7 +44,38 @@ const VehicleList = ({collapsed}) => {
                  </Link>
                 </div>
                 <div className="head_center">
-                  <h6>There are no records to display</h6>
+                <div className="table_content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Vehicle Type</th>
+                                <th>Manufacturer Company</th>
+                                <th>Fule Type</th>
+                                <th>Model(Optional)</th>
+                                <th>Vehicle Registration</th>
+                                <th>Avrage</th>
+                                <th>Odometer Reading</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                         { data.map((item,index)=>{                          
+                          return (
+                            <tr key={index}>
+                            <td>{item.vType}</td>
+                            <td>{item.MCompany}</td>
+                            <td>{item.fType}</td>
+                            <td>{item.Modal}</td>
+                            <td>{item.VRegistration}</td>
+                            <td>{item.Avrage}</td>
+                            <td>{item.OReading}</td>
+                          </tr>                          
+                          )                
+
+                         })
+                          }
+                        </tbody>
+                    </table>
+                </div>
                 </div>                
               </div>
             </div>

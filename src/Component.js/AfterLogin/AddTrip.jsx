@@ -1,6 +1,6 @@
 import React from "react";
 import "../../style.css/AfterLogin/AddTrip.css";
-import { validateForm } from "../../utilti/validation";
+import {validateFormAddTrip } from "../../utilti/validation";
 import { SlCalender } from "react-icons/sl";
 import { BiSolidMap } from "react-icons/bi";
 import { AiFillCar, AiFillStar } from "react-icons/ai";
@@ -10,52 +10,102 @@ import { useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import MenuAppBar from "./MenuAppBar";
-// import Sidebarcomponent from "./Sidebarcomponent";
+
+
+
 
 
 const AddTrip = ({collapsed}) => {
-  const [startDate, setStartDate] = useState(new Date());
-
-  const [formData, setformData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    massage: "",
+  // console.log('startDate',startDate)
+  const [TripformData, setTripformData] = useState({
+    sDate: "",
+    eDate: "",
+    Tfrom: "",
+    Tend: "",
+    Cvehicle: "",
+    Ttpye: "",
+    Note: "",
+    Tag: "",
   });
-  const [errors, setErrors] = useState({});
-  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setformData({ ...formData, [name]: value });
+  // console.log(TripformData)
+  const [errors, setErrors] = useState({});
+  
+// datepicker onchang
+const startdatehandlechange = (date)=>{ 
+  setTripformData({...TripformData,sDate:date})
+
+}
+// datepicker onchang
+const enddatehandlechange = (date)=>{
+  setTripformData({...TripformData,eDate:date})
+}
+  const AddTriphandleChange = (e) => {
+    const { name, value } = e.target; 
+    setTripformData({ ...TripformData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmitTrip = async(e) => {    
     e.preventDefault();
-    const newErrors = validateForm(formData); // Validate the form using the utility function
+    const newErrors = validateFormAddTrip(TripformData);
     setErrors(newErrors);
-    setIsFormValid(Object.keys(newErrors).length === 0);
 
-    if (isFormValid) {
-      console.log("Form submitted");
+    
+      const isValid = Object.keys(newErrors).length === 0;
+      if (isValid) {       
+        
+        const addtripformData = {
+          sDate: TripformData.sDate,
+          eDate: TripformData.eDate,
+          Tfrom: TripformData.Tfrom,
+          Tend: TripformData.Tend,
+          Cvehicle: TripformData.Cvehicle,
+          Ttpye: TripformData.Ttpye,
+          Note: TripformData.Note,
+          Tag: TripformData.Tag,
+        };
+        
+        try {
+          const response = await fetch('http://localhost:5000/addTripModule/addTripData', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(addtripformData),
+          });       
+         
+        
+          if (response.ok) {
+            const data = await response.json();
+            console.log('addTrip save successfully:', data);
 
-      setformData({
-        name: "",
-        email: "",
-        phone: "",
-        massage: "",
-      });
-      // You can send data to an API or perform any other action here
-    } else {
-      console.log("Form validation failed");
-    }
+          
+          } else {
+            const errorData = await response.json();
+            console.error('Failed to save addTrip data :', errorData);
+          }
+        } catch (error) {
+          console.error('Error during save addTrip:', error);
+        }       
+
+        setTripformData({          
+          Tfrom: "",
+          Tend: "",
+          Cvehicle: "",
+          Ttpye: "",
+          Note: "",
+          Tag: "",
+        });
+      
+      }
+      
+
+      return isValid;
+   
   };
 
   return (
-    <>
-    {/* <MenuAppBar />
-    <Sidebarcomponent /> */}
+    <>    
       <div className={`app sidebarstyle ${collapsed ? 'maxwidth_content':'main_box'}`}>        
           <div className="mainwrapper">
             <div className="container">
@@ -69,114 +119,140 @@ const AddTrip = ({collapsed}) => {
                 <div className="row mb-5">
                   <div className="col-lg-6">
                     <div className="form">
-                      <form className="mb-5" onSubmit={handleSubmit}>
+                      <form  className="mb-5" onSubmit={handleSubmitTrip}>
                         <div className="row double">
                           <div className="col-lg-6 form_group">
                             <label htmlFor="">Trip Start Date</label>
-                            <InputGroup className="mb-3">
-                              <InputGroup.Text id="basic-addon1">
+                            <InputGroup key="startDate" className="mb-3">
+                              <InputGroup.Text id="basic-addon2">
                                 <SlCalender />
                               </InputGroup.Text>                              
                               <DatePicker
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
+                                selected={TripformData.sDate}
+                                onChange={startdatehandlechange}
+                                
                               />
                             </InputGroup>
                           </div>
                           <div className="col-lg-6 form_group">
                             <label htmlFor="">Trip End Date</label>
-                            <InputGroup className="mb-3">
+                            <InputGroup key="endDate" className="mb-3">
                               <InputGroup.Text id="basic-addon1">
                                 <SlCalender />
                               </InputGroup.Text>                            
                               <DatePicker
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
+                                selected={TripformData.eDate}
+                                onChange={enddatehandlechange}
+                               
                               />
                             </InputGroup>
                           </div>
                         </div>
                         <div className="name_group form_group">
-                          <label htmlFor="">Form:</label>
-                          <InputGroup className="mb-3">
+                          <label htmlFor="">From:</label>
+                          <InputGroup controlId="validationCustom01" className="mb-3 ">
                             <InputGroup.Text id="basic-addon1">
                               <BiSolidMap />
                             </InputGroup.Text>
-                            <Form.Control
+                            <Form.Control                              
                               placeholder="Search for start Adress"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                            />
-                          </InputGroup>
+                              name="Tfrom"
+                              value={TripformData.Tfrom}
+                              onChange={AddTriphandleChange}
+                            />                                                                                     
+                          </InputGroup> 
+                          {errors.Tfrom && <p className="style01">{errors.Tfrom}</p>}                          
                         </div>
                         <div className="name_group form_group">
                           <label htmlFor="">End:</label>
-                          <InputGroup className="mb-3">
+                          <InputGroup controlId="validationCustom01" className="mb-3">
                             <InputGroup.Text id="basic-addon1">
                               <BiSolidMap />
                             </InputGroup.Text>
-                            <Form.Control
+                            <Form.Control                              
                               placeholder="Search for End Adress"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                            />
-                          </InputGroup>
+                              name="Tend"
+                              value={TripformData.Tend}
+                              onChange={AddTriphandleChange}
+                            /> 
+                          </InputGroup>                         
+                            {errors.Tend && <p className="style01">{errors.Tend}</p>}                           
                         </div>
                         <div className="name_group form_group">
                           <label htmlFor="">Choose Vehicle:</label>
-                          <InputGroup className="mb-3">
+                          <InputGroup controlId="validationCustom01" className="mb-3">
                             <InputGroup.Text id="basic-addon1">
                               <AiFillCar />
                             </InputGroup.Text>
-                            <Form.Control
+                            <Form.Control                             
                               placeholder="Select Vehicle"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                            />
-                          </InputGroup>
+                              name="Cvehicle"
+                              value={TripformData.Cvehicle}
+                              onChange={AddTriphandleChange}
+                            /> 
+                          </InputGroup>                          
+                             {errors.Cvehicle && <p className="style01">{errors.Cvehicle}</p>}                           
                         </div>
                         <div className="name_group form_group">
                           <label htmlFor="">Trip Type:</label>
-                          <InputGroup className="mb-3">
+                          <InputGroup controlId="validationCustom01" className="mb-3">
                             <InputGroup.Text id="basic-addon1">
                               <AiFillStar />
                             </InputGroup.Text>
-                            <Form.Control
+                            <Form.Control                             
                               placeholder="Select a trip type"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                            />
-                          </InputGroup>
+                              name="Ttpye"
+                              value={TripformData.Ttpye}
+                              onChange={AddTriphandleChange}
+                            />  
+                          </InputGroup>                          
+                            {errors.Ttpye && <p className="style01">{errors.Ttpye}</p>}                          
                         </div>
                         <div className="name_group form_group">
                           <label htmlFor="">Note:</label>
-                          <InputGroup className="mb-3">
+                          <InputGroup controlId="validationCustom01" className="mb-3">
                             <InputGroup.Text id="basic-addon1">
                               <FaNotesMedical />
                             </InputGroup.Text>
-                            <Form.Control
+                            <Form.Control                               
                               placeholder="Note"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                            />
-                          </InputGroup>
+                              name="Note"
+                              value={TripformData.Note}
+                              onChange={AddTriphandleChange}
+                            /> 
+                          </InputGroup>                            
+                           {errors.Note && <p className="style01">{errors.Note}</p>}
                         </div>
                         <div className="name_group form_group">
                           <label htmlFor="">Tags:</label>
-                          <InputGroup className="mb-3">
+                          <InputGroup controlId="validationCustom01" className="mb-3">
                             <InputGroup.Text id="basic-addon1">
                               <BsFillTagFill />
                             </InputGroup.Text>
-                            <Form.Control
+                            <Form.Control                             
                               placeholder="Tags"
                               aria-label="Username"
                               aria-describedby="basic-addon1"
-                            />
-                          </InputGroup>
+                              name="Tag"
+                              value={TripformData.Tag}
+                              onChange={AddTriphandleChange}
+                            /> 
+                          </InputGroup>                            
+                            {errors.Tag && <p className="style01">{errors.Tag}</p>}
                         </div>
                         <div className="check">
                           <label htmlFor="#" className="checkbox">
-                            <Form.Check
+                            <Form.Check                              
                               aria-label="option 1"
                               className="cheks1"
                             />{" "}

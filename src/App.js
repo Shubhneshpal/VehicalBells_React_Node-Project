@@ -26,10 +26,11 @@ import MenuAppBar from "./Component.js/AfterLogin/MenuAppBar.jsx";
 import Sidebarcomponent from "./Component.js/AfterLogin/Sidebarcomponent.jsx";
 import TeamAttendance from "./Component.js/AfterLogin/TeamAttendance.jsx";
 import CreateEmail from "./Component.js/AfterLogin/CreateEmail.jsx";
+import AddExpenses from "./Component.js/AfterLogin/AddExpenses.jsx";
 
 
 function App() {
-  const [isLogin, setisLogin] = useState(true);
+  const [isLogin, setisLogin] = useState(false);
 
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
 
@@ -54,6 +55,7 @@ function App() {
       <Route path="/vehicleList" element={<VehicleList collapsed={isSidebarCollapsed} />} />
       <Route path="/triplist" element={<TripList collapsed={isSidebarCollapsed} />} />
       <Route path="/expenses" element={<YourExpenses collapsed={isSidebarCollapsed} />} />
+      <Route path="/Addexpenses" element={<AddExpenses collapsed={isSidebarCollapsed} />} />
       <Route path="/reports" element={<Reports collapsed={isSidebarCollapsed} />} />
       <Route path="/emailtamlets" element={<EmailTamplets collapsed={isSidebarCollapsed} />} />
       <Route path="/attendance" element={<Attendance collapsed={isSidebarCollapsed} />} />
@@ -78,7 +80,7 @@ function App() {
           <Route path="/pricing" element={<Pricing/>} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<RegisterComponent />} />
+          <Route path="/register" element={<RegisterComponent setisLogin={setisLogin}  isLogin={isLogin} />} />
           <Route path="/privacy" element={<PrivacyPage />} />          
           <Route path="*" element={<NoPage />} />
         </Routes>
