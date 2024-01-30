@@ -16,8 +16,16 @@ import { FaGauge } from "react-icons/fa6";
 import { IoMdSettings } from "react-icons/io";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 
-export default function MenuAppBar({onClick,collapsed}) {
+export default function MenuAppBar({onClick,collapsed,setisLogin}) {
   
+  const handleLogout = () => {
+    // Clear the token from local storage
+    localStorage.removeItem('token');
+  
+    setisLogin(false)
+    // Redirect the user to the login page
+    window.location.replace("/") 
+  };
   
   return (
     <>    <Box sx={{ flexGrow: 1 }}>
@@ -59,10 +67,10 @@ export default function MenuAppBar({onClick,collapsed}) {
       <Dropdown.Toggle className='toggle_btn58 ' split  id="" ><Link><img className='image072' src={navimg} alt="sideimg" width={40} height={40}/></Link></Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item component={<NavLink to="/#" />} className='dropdown_link'> <FaGauge className='gauge' />Go To Team Dashboard</Dropdown.Item>
-        <Dropdown.Item className='dropdown_link'><IoMdSettings />Personal Setting</Dropdown.Item>
-        <Dropdown.Item className='dropdown_link'><IoMdSettings />Change Password</Dropdown.Item>
-        <Dropdown.Item className='dropdown_link'><FaArrowRightFromBracket />Logout</Dropdown.Item>
+        <Dropdown.Item  className='dropdown_link'> <Link style={{color:"black"}} to={"/teamDashboard"}><FaGauge className='gauge' />Go To Team Dashboard</Link></Dropdown.Item>
+        <Dropdown.Item className='dropdown_link'><Link style={{color:"black"}} to={"/editProfile"}><IoMdSettings />Personal Setting</Link></Dropdown.Item>
+        <Dropdown.Item className='dropdown_link'><Link style={{color:"black"}} to={"/changePassword"}><IoMdSettings />Change Password</Link></Dropdown.Item>
+        <Dropdown.Item className='dropdown_link'onClick={handleLogout} ><FaArrowRightFromBracket />Logout</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
        

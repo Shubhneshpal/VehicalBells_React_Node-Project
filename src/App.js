@@ -1,4 +1,4 @@
-import react,{useState} from "react"
+import react,{useEffect, useState} from "react"
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
@@ -27,6 +27,10 @@ import Sidebarcomponent from "./Component.js/AfterLogin/Sidebarcomponent.jsx";
 import TeamAttendance from "./Component.js/AfterLogin/TeamAttendance.jsx";
 import CreateEmail from "./Component.js/AfterLogin/CreateEmail.jsx";
 import AddExpenses from "./Component.js/AfterLogin/AddExpenses.jsx";
+import TeamList from "./Component.js/AfterLogin/TeamList.jsx";
+import TeamMemberL from "./Component.js/AfterLogin/TeamMemberL.js";
+import ChangePassw from "./Component.js/AfterLogin/ChangePassw.jsx";
+
 
 
 function App() {
@@ -37,14 +41,21 @@ function App() {
   const handleToggleSidebar = () => {
     setSidebarCollapsed(!isSidebarCollapsed);
   };
-  
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {    
+      setisLogin(true);
+    }
+  }, [isLogin]);
+
+  if(isLogin){
   return (
     <div className="App">
-      <BrowserRouter>
-    {isLogin ?
+      <BrowserRouter>    
     <>
     <div className={`app-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-      <MenuAppBar collapsed={isSidebarCollapsed} onClick={handleToggleSidebar} />      
+      <MenuAppBar collapsed={isSidebarCollapsed} onClick={handleToggleSidebar} setisLogin={setisLogin} />      
     </div>
       <div className="main-layout-wraper">
       <Sidebarcomponent collapsed={isSidebarCollapsed}  />
@@ -61,33 +72,40 @@ function App() {
       <Route path="/attendance" element={<Attendance collapsed={isSidebarCollapsed} />} />
       <Route path="/editProfile" element={<ProfileSetting />} />      
       <Route path="/teamDashboard" element={<TeamDashboard collapsed={isSidebarCollapsed} />} />      
-      <Route path="/permisson" element={<Permissons collapsed={isSidebarCollapsed}/>} /> 
-      <Route path="/login" element={<Login />} /> 
+      <Route path="/permisson" element={<Permissons collapsed={isSidebarCollapsed}/>} />       
       <Route path="/teamAttendance" element={<TeamAttendance />} /> 
-      <Route path="/createemail" element={<CreateEmail collapsed={isSidebarCollapsed} />} /> 
-      
-     
+      <Route path="/createemail" element={<CreateEmail collapsed={isSidebarCollapsed} />} />       
+      <Route path="/teamlist" element={<TeamList collapsed={isSidebarCollapsed} />} />       
+      <Route path="/teamMemberLlist" element={<TeamMemberL collapsed={isSidebarCollapsed} />} />       
+      <Route path="/changePassword" element={<ChangePassw  />} />       
       <Route path="*" element={<NoPage />} />
       </Routes>
       </div>
       
       </>
-      :
+      </BrowserRouter>
+    </div>
+  )
+    }else{
+    return(
+      <div className="App">
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/pricing" element={<Pricing/>} />
           <Route path="/resources" element={<Resources />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<RegisterComponent setisLogin={setisLogin}  isLogin={isLogin} />} />
+          <Route path="/login" element={<Login setisLogin={setisLogin}/>} />
           <Route path="/privacy" element={<PrivacyPage />} />          
           <Route path="*" element={<NoPage />} />
         </Routes>
-    }
-      </BrowserRouter>
-    </div>
-  );
+        </BrowserRouter>
+    </div> 
+    )   
+    }    
+  
 }
 
 export default App;

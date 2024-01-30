@@ -12,7 +12,7 @@ const EmailTamplets = ({collapsed}) => {
         <div className="mainwrapper">
           <div className="Dash_block div_add">
             <div className="contents1 d-flex justify-content-between align-items-start">
-              <h4> Last 3 Month Report </h4>
+              <h4> Email Templates </h4>
               <Link className="btn small_btn" to={"/createemail"}>
                 <HiPlus /> Create Tamplate
               </Link>

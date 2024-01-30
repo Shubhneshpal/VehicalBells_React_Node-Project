@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../style.css/AfterLogin/sidebar.css";
 import logo01 from "../../img/vehicell-horizontal-logo.png";
 import user_img from "../../img/user_img_girl.png";
@@ -10,17 +10,20 @@ import { FaChartPie, FaUserAlt } from "react-icons/fa";
 import { FaRightFromBracket } from "react-icons/fa6";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-// import { HiMiniArrowRightOnRectangle } from "react-icons/hi";
 import { LuPieChart } from "react-icons/lu";
 import { RiTeamFill } from "react-icons/ri";
-import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi/";
+import { FaGauge } from "react-icons/fa6";
+// import { useNavigate } from 'react-router-dom';
+
 
 const Sidebarcomponent = ({ collapsed }) => {
+  // const navigate = useNavigate();
   const [selectedLink, setSelectedLink] = useState(false); // Set the default selected link to 0 for the Home link
 
   const handleLinkClick = () => {
     setSelectedLink(selectedLink);
   };
+
   return (
     <>
       <Sidebar
@@ -55,7 +58,7 @@ const Sidebarcomponent = ({ collapsed }) => {
                 <Link to={"/editProfile"}>
                   <FaUserAlt />
                 </Link>
-                <Link to={"/login"}>
+                <Link >
                   <FaRightFromBracket />
                 </Link>
               </div>
@@ -76,6 +79,20 @@ const Sidebarcomponent = ({ collapsed }) => {
           }}
         >
           <hr />
+          {/* <MenuItem
+            component={
+              <NavLink
+                to="/"               
+               className="nav-link nav_Link_col"
+              />              
+            }
+            icon={<AiFillHome className='icons89' />}
+
+            onClick={() => handleLinkClick()}
+            className={selectedLink  ? 'active' : ''}           
+          >
+          <span className={`app side_text sidebarstyle ${collapsed ? "content_list" : ""}`}>Home</span>            
+          </MenuItem> */}
           <MenuItem
             component={
               <NavLink
@@ -83,7 +100,7 @@ const Sidebarcomponent = ({ collapsed }) => {
                className="nav-link nav_Link_col"
               />              
             }
-            icon={<AiFillHome className="icons89 " />}
+            icon={<FaGauge className='icons89' />}
 
             onClick={() => handleLinkClick()}
             className={selectedLink  ? 'active' : ''}           

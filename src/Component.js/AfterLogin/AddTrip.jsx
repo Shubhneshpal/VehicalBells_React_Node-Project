@@ -34,7 +34,6 @@ const AddTrip = ({collapsed}) => {
 // datepicker onchang
 const startdatehandlechange = (date)=>{ 
   setTripformData({...TripformData,sDate:date})
-
 }
 // datepicker onchang
 const enddatehandlechange = (date)=>{
@@ -48,11 +47,9 @@ const enddatehandlechange = (date)=>{
   const handleSubmitTrip = async(e) => {    
     e.preventDefault();
     const newErrors = validateFormAddTrip(TripformData);
-    setErrors(newErrors);
-
-    
+    setErrors(newErrors);    
       const isValid = Object.keys(newErrors).length === 0;
-      if (isValid) {       
+      if (isValid) {      
         
         const addtripformData = {
           sDate: TripformData.sDate,
@@ -128,6 +125,7 @@ const enddatehandlechange = (date)=>{
                                 <SlCalender />
                               </InputGroup.Text>                              
                               <DatePicker
+                              className="datetm4"
                                 selected={TripformData.sDate}
                                 onChange={startdatehandlechange}
                                 
@@ -141,6 +139,7 @@ const enddatehandlechange = (date)=>{
                                 <SlCalender />
                               </InputGroup.Text>                            
                               <DatePicker
+                               className="datetm4"
                                 selected={TripformData.eDate}
                                 onChange={enddatehandlechange}
                                

@@ -5,70 +5,66 @@ import Google from "../../img/Google__G__Logo.svg.png";
 import loginLogo from "../../img/logo.webp";
 import { validateFormLogin } from "../../utilti/validation";
 
-const LoginComponent = () => {
-  const [loginData, setloginData] = useState({    
-    email: "",    
-    password: "", 
+const LoginComponent = (props) => {
+  const { setisLogin = () => {} } = props;
+  
+  const [loginData, setloginData] = useState({
+    email: "",
+    password: "",
   });
   const [errors, setErrors] = useState({});
- 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setloginData({ ...loginData, [name]: value });
   };
 
-  const handleSubmitLogin = async(e) => {
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
     const newErrors = validateFormLogin(loginData);
     setErrors(newErrors);
 
-      const isValid = Object.keys(newErrors).length === 0;
-      if (isValid) {        
-        // console.log("logForm validation success")
-        const formData = {          
-          email: loginData.email,          
-          password: loginData.password,
-        };
-      
-        
-        try {
-          const response = await fetch('http://localhost:5000/loginModule/login', {
-            method: 'POST',
+    const isValid = Object.keys(newErrors).length === 0;
+
+    const { email, password } = loginData;
+    if (isValid) {
+      console.log("logForm validation success");
+      try {
+        const response = await fetch(
+          "http://localhost:5000/loginModule/login",
+          {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
-          });        
-          
-        
-          if (response.ok) {
-            const data = await response.json();
-            console.log('User login successfully:', data);
-
-            // Set login state to true
-            // setisLogin(true);
-
-            //   navigate('/');
-          } else {
-            const errorData = await response.json();
-            console.error('Failed to login user:', errorData);
+            body: JSON.stringify(loginData),
           }
-        } catch (error) {
-          console.error('Error during login:', error);
-        }       
+        );
 
-        setloginData({          
-          email: "",         
-          password: "",
-        });
-      
-      } else {
-        console.log("loginForm validation failed");
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Login successful");
+          localStorage.setItem("token", data.token);
+         // Set login state to true
+         setisLogin(true);
+        window.location.replace('/');
+        } else {
+          const errorData = await response.json();
+          console.error("Failed to login:", errorData.message);
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
       }
 
-      return isValid;
-   
+      setloginData({
+        email: "",
+        password: "",
+      });     
+    } else {
+      console.log("loginForm validation failed");
+    }
+
+    return isValid;
   };
 
   return (
@@ -100,11 +96,23 @@ const LoginComponent = () => {
                 <p>Welcome Back! Please Login To Your Account.</p>
                 <form action="#">
                   <div className="input_group mb-4">
-                    <input onChange={handleChange} type="text" placeholder="Email" name="email" value={loginData.email} />
+                    <input
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="Email"
+                      name="email"
+                      value={loginData.email}
+                    />
                     {errors.email && <p className="style01">{errors.email}</p>}
                   </div>
                   <div className="input_group mb-4">
-                    <input onChange={handleChange} type="password" name="password" value={loginData.password} placeholder="Password" />
+                    <input
+                      onChange={handleChange}
+                      type="password"
+                      name="password"
+                      value={loginData.password}
+                      placeholder="Password"
+                    />
                     {errors.password && (
                       <p className="style01">{errors.password}</p>
                     )}
@@ -125,7 +133,9 @@ const LoginComponent = () => {
                       <Link>Forgot Password?</Link>
                     </div>
                   </div>
-                  <button onClick={handleSubmitLogin} className="btn">Login</button>
+                  <button onClick={handleSubmitLogin} className="btn">
+                    Login
+                  </button>
                 </form>
                 <div className="bottomLine">
                   <span>OR</span>
@@ -144,9 +154,10 @@ const LoginComponent = () => {
                 </div>
                 <div className="provacyPage">
                   <p>
-                    By Signing In, You Agree To Our 
-                    <Link to={"/terms"}>{"  "} Terms And Conditions</Link> And Acknowledge That You
-                    Have Read Our <Link to={"/privacy"}>{"  "} Privacy Policy.</Link>
+                    By Signing In, You Agree To Our
+                    <Link to={"/terms"}>{"  "} Terms And Conditions</Link> And
+                    Acknowledge That You Have Read Our{" "}
+                    <Link to={"/privacy"}>{"  "} Privacy Policy.</Link>
                   </p>
                 </div>
               </div>

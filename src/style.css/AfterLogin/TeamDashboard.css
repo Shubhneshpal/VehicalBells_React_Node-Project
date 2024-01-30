@@ -15,6 +15,28 @@ textarea.form-control {
     min-height: calc(5em + .75rem + calc(var(--bs-border-width) * 2)) !important;
 }
 .modal-dialog {
-    max-width: 51rem !important;
+    /* max-width: 51rem !important; */
     top: 70px !important;
+}
+.small_btn svg{
+    font-size: 17px !important;
+}
+.expoBtn{
+    border-top-right-radius:0px !important ;
+    border-bottom-right-radius: 0px !important;   
+}
+.expoBtns{
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+.del7{
+    background-color: tomato !important;
+    margin-left: 3px;
+    cursor: pointer;
+}
+.pen{
+    cursor: pointer;
+}
+a{
+    text-decoration: none;
 }

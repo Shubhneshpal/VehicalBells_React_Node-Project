@@ -12,8 +12,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import { visuallyHidden } from '@mui/utils';
 import { FaPencilAlt } from "react-icons/fa";
-import MenuAppBar from './MenuAppBar';
-import Sidebarcomponent from './Sidebarcomponent';
+
 
 function createData(id, name, email, cDate, uDate, action) {
   return {

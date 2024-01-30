@@ -12,3 +12,9 @@
 .report_item21 strong{
     color: red !important;
 }
+tr td{
+    padding: 3px 15px;
+    line-height: 15px;
+    font-weight: 400;
+    font-size: 0.925rem;
+}

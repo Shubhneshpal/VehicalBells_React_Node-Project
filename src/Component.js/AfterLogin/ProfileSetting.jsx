@@ -13,6 +13,7 @@ const ProfileSetting = () => {
   });
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,12 +40,9 @@ const ProfileSetting = () => {
       } else {
         console.log("Form validation failed");
       }
-
       return isValid;
     });
-  };
-
-  const [selectedFile, setSelectedFile] = useState(null);
+  };  
 
   const handleFileChange = (e) => {
     // Get the selected file

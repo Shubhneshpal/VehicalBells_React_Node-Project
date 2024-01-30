@@ -212,3 +212,36 @@ export const validateFormAddExpenses = (expensesData) => {
   }
   return errors;
 };
+// TeamvalidateForm page validation*******
+export const TeamvalidateForm = (TeamData) => {
+  const errors = {};
+  console.log(errors)  
+  if (TeamData.TeamName.trim() === '') {
+    errors.TeamName = '';
+  } 
+    // Validate email
+    if (!TeamData?.Eadress?.trim()) {
+      errors.Eadress = 'Email is required *';
+    } else if (!isValidEmail(TeamData.Eadress)) {
+      errors.Eadress = 'Invailid email *';
+    } 
+  
+  return errors;
+};
+
+// changePassword page validation*******
+export const changePassword = (ChangePass) => {
+  const errors = {};
+  console.log(errors)  
+  if (ChangePass.password.trim() === '') {
+    errors.password = 'Old Password is required **';
+  }  
+  if (ChangePass.NewPass.trim() === '') {
+    errors.NewPass = 'New Password is required **';
+  }
+  if (ChangePass.ConPass.trim() === '') {
+    errors.ConPass = 'Confirm Password is required **';
+  }
+  
+  return errors;
+};
